@@ -1,29 +1,21 @@
 import React from "react";
-import { Form } from "./Form.js";
 import { List } from "./List.js";
 import plane from "../plane.svg";
-import { Link } from "@reach/router";
 
 const url = process.env.REACT_APP_ENDPOINT;
 
-export const Home = () => {
-    const [query, setQuery] = React.useState();
+const AccidentList = ({ location }) => {
+    const { make, model } = location.state;
     const [accidents, setAccidents] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [prev, setPrev] = React.useState(-1);
     const [next, setNext] = React.useState(1);
     const [totalPages, setTotalPages] = React.useState();
-    const [loading, setLoading] = React.useState();
-    const [range, setRange] = React.useState([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    const [loading, setLoading] = React.useState(true);
+    const [range, setRange] = React.useState([]);
 
-    const handleSubmission = (options) => {
-        setQuery(`${options.filter((a) => !!a).join("&")}`);
-        fetchAccidents(options.filter((a) => !!a).join("&"));
-    };
-
-    const fetchAccidents = (options, page = 0) => {
-        setLoading(true);
-        fetch(`${url}?${options}&page=${page}`)
+    React.useEffect(() => {
+        fetch(`${url}?Make=${make}&Model=${model}`)
             .then((res) => res.json())
             .then((data) => {
                 setAccidents((acc) => [...acc, ...data.accidents]);
@@ -33,7 +25,7 @@ export const Home = () => {
                 setLoading(false);
             })
             .catch((err) => console.error(err));
-    };
+    }, []);
 
     const getPrev = () => {
         let prevPage = prev;
@@ -173,52 +165,51 @@ export const Home = () => {
         }
         return newRange;
     };
-
-    if (accidents.length > 0) {
-        return (
-            <>
-                <div className="table-nav">
-                    <button onClick={firstRange} disabled={prev < 0}>{`<<`}</button>
-                    <button onClick={getPrev} disabled={prev < 0}>
-                        {`<`}
-                    </button>
-                    {range && (
-                        <button onClick={prevRange} disabled={page < 10}>
-                            ...
+    return (
+        <>
+            {accidents.length > 0 ? (
+                <>
+                    <div className="table-nav">
+                        <button onClick={firstRange} disabled={prev < 0}>{`<<`}</button>
+                        <button onClick={getPrev} disabled={prev < 0}>
+                            {`<`}
                         </button>
-                    )}
-                    {range &&
-                        range.map((val, index) => {
-                            return (
-                                <button
-                                    className={val === page ? "highlight" : undefined}
-                                    key={index}
-                                    onClick={() => getPage(val)}
-                                >
-                                    {val + 1}
-                                </button>
-                            );
-                        })}
-                    {range && (
-                        <button onClick={nextRange} disabled={next > totalPages}>
-                            ...
+                        {range && (
+                            <button onClick={prevRange} disabled={page < 10}>
+                                ...
+                            </button>
+                        )}
+                        {range &&
+                            range.map((val, index) => {
+                                return (
+                                    <button
+                                        className={val === page ? "highlight" : undefined}
+                                        key={index}
+                                        onClick={() => getPage(val)}
+                                    >
+                                        {val + 1}
+                                    </button>
+                                );
+                            })}
+                        {range && (
+                            <button onClick={nextRange} disabled={next >= totalPages}>
+                                ...
+                            </button>
+                        )}
+                        <button onClick={getNext} disabled={next >= totalPages}>
+                            {`>`}
                         </button>
-                    )}
-                    <button onClick={getNext} disabled={next > totalPages}>
-                        {`>`}
-                    </button>
-                    <button onClick={lastRange} disabled={next > totalPages}>{`>>`}</button>
-                </div>
-                {loading && <img src={plane} className="rotate-center" alt="Hourglass" />}
-                <List accidents={accidents} />
-            </>
-        );
-    } else {
-        return (
-            <>
-                <Link to="/makes">Search by Make</Link>
-                <Form handleSubmission={handleSubmission} />
-            </>
-        );
-    }
+                        <button onClick={lastRange} disabled={next > totalPages}>{`>>`}</button>
+                    </div>
+                    <List accidents={accidents} />
+                </>
+            ) : loading ? (
+                <img src={plane} className="rotate-center" alt="Hourglass" />
+            ) : (
+                <h1>No results</h1>
+            )}
+        </>
+    );
 };
+
+export { AccidentList };

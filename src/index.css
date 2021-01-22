@@ -33,7 +33,7 @@ label {
   color: white;
   background-color: black;
 }
-button {
+.table-nav button {
   width: 50px;
 }
 .table-nav {
@@ -78,4 +78,28 @@ button {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg);
   }
+}
+.make-groups {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  grid-gap: 25px;
+  margin-top: 20px;
+  
+}
+.make-groups a {
+  border: 1px solid black;
+  width: 75px;
+  height:75px;
+  display: flex;
+  align-self: center;
+  justify-self: center;
+  justify-content:center;
+  align-items: center;
+}
+.makes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 25px;
+  margin-top: 20px;
 }
