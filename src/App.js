@@ -12,9 +12,9 @@ function App() {
   return (
       <Router>
           <Home path="/" />
-          <AccidentsByMakeAndModel path="makes" />
-          <MakeModelList path="makes/:letter" />
-          <AccidentList path="makes/:letter/:make-model" />
+          <AccidentsByMakeAndModel path="makeAndModel" />
+          <MakeModelList path="makeAndModel/:letter" />
+          <AccidentList path="makeAndModel/:letter/:make-model" />
       </Router>
   );
 }

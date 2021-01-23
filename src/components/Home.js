@@ -216,7 +216,7 @@ export const Home = () => {
     } else {
         return (
             <>
-                <Link to="/makes">Search by Make</Link>
+                <Link to="/makeAndModel">Search by Make and Model</Link>
                 <Form handleSubmission={handleSubmission} />
             </>
         );
