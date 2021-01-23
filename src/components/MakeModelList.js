@@ -1,16 +1,14 @@
 import React from "react";
 import { Link } from "@reach/router";
 
-const MakeList = ({ location }) => {
+const MakeModelList = ({ location }) => {
     if (location.state.list) {
         return (
             <ul className="makes">
                 {location.state.list.map((make, index) => {
                     return (
                         <li key={index}>
-                            <Link to={`${encodeURIComponent(make)}`} state={{ make }}>
-                                {make}
-                            </Link>
+                            <Link to={`${encodeURIComponent(make)}`}>{make}</Link>
                         </li>
                     );
                 })}
@@ -21,4 +19,4 @@ const MakeList = ({ location }) => {
     }
 };
 
-export { MakeList };
+export { MakeModelList };

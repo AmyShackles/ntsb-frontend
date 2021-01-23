@@ -103,3 +103,87 @@ label {
   grid-gap: 25px;
   margin-top: 20px;
 }
+
+table {
+  text-align: justify;
+  width: 98%;
+  margin: auto;
+  border-spacing: 0;
+}
+td, th {
+  border: 1px solid black;
+  padding: 5px;
+}
+.title {
+  font-size: 2rem;
+  text-align: center;
+}
+
+@media only screen and (max-width: 800px) {
+  .makes {
+    column-count: 2;
+    column-width: auto;
+    display: block;
+    grid-template-columns:none;
+    padding-inline-start: 0;
+  }
+  .makes li {
+    padding: 10px;
+  }
+  .title {
+    font-size:1.25rem;
+  }
+  .title-with-nav {
+    width: 100vw;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    position: fixed;
+    background-color: gray;
+    z-index: 1;
+    top: 0;
+  }
+  .table-nav {
+    width: 100vw;
+  }
+  .table-nav button {
+    width: 30px;
+    padding: 0;
+  }
+
+  table {
+    margin-top: 12vh;
+  }
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  tr {
+    border: 1px solid black;
+  }
+  td {
+    border: none;
+    border-bottom: 1px solid black;
+    position: relative;
+    padding-left: 50%;
+    white-space: normal;
+    text-align: left;
+  }
+  td:before {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+    content: attr(data-title);
+  }
+}
+

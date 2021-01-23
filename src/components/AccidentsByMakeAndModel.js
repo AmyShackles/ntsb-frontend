@@ -4,10 +4,10 @@ import { naturalSort } from "../utils/naturalSort.js";
 
 const url = process.env.REACT_APP_ENDPOINT;
 
-const AccidentsByMake = () => {
+const AccidentsByMakeAndModel = () => {
     const [makes, setMakes] = React.useState([]);
     React.useState(() => {
-        fetch(`${url}/makeList`)
+        fetch(`${url}/make_model`)
             .then((res) => res.json())
             .then((data) => setMakes(naturalSort(data)))
             .catch((err) => console.error(err));
@@ -100,4 +100,4 @@ const AccidentsByMake = () => {
     );
 };
 
-export { AccidentsByMake };
+export { AccidentsByMakeAndModel };
