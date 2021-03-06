@@ -9374,10 +9374,10 @@ react-app-polyfill@^2.0.0:
     regenerator-runtime "^0.13.7"
     whatwg-fetch "^3.4.1"
 
-react-autosuggestions@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/react-autosuggestions/-/react-autosuggestions-2.1.0.tgz#a645ceac91f4d12ce02808c0491bcd7d612eab03"
-  integrity sha512-mrLLZOjGRhWis/qg02aOSzGbfrbxCFzrq3C3sOeTyD7FYAYXxD/2SbiER8k85ExrPJ0JqreWLVJFDJEIsxOpKg==
+react-autosuggestions@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-autosuggestions/-/react-autosuggestions-3.1.0.tgz#52042982917d85b84a94cbcd82a7a7ee6a3993ba"
+  integrity sha512-6uzR7Q441VtzDyNloqeVVG7oljAmUqXUyVWeTasfn8b+FYxPkIk3g9lEva0B07XDspWKJhyJAiP2Kovd34Gnnw==
 
 react-dev-utils@^11.0.1:
   version "11.0.1"

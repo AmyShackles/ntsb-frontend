@@ -21,6 +21,8 @@ export const List = ({ accidents }) => {
                             Accident_Number,
                             Final_Report_Date,
                             Final_Report_PDF,
+                            Foreign_Report,
+                            Foreign_Report_Date,
                             City,
                             State,
                             Country,
@@ -34,16 +36,31 @@ export const List = ({ accidents }) => {
                         return (
                             <tr key={index}>
                                 <td data-title="Accident Number">
-                                    <a href={Final_Report_PDF} title={`View final report PDF for ${Accident_Number}`}>{Accident_Number || ""}</a>
+                                    {
+                                        Final_Report_PDF ? 
+                                            <a href={Final_Report_PDF} title={`View final report PDF for ${Accident_Number}`}>{Accident_Number || ""}</a>
+                                        : 
+                                            <a href={Foreign_Report} title={`View foreign report PDF for ${Accident_Number}`}>{Accident_Number || ""}</a>
+                                    }
                                 </td>
-                                <td data-title="Final Report Date">{(Final_Report_Date &&
-                                    new Date(Final_Report_Date).toLocaleString("en-US", {
-                                        year: "numeric",
-                                        month: "numeric",
-                                        day: "numeric",
-                                    })) || 
-                                    ""}
-                                </td>
+                                {Final_Report_Date ? 
+                                    <td data-title="Final Report Date">{(Final_Report_Date &&
+                                        new Date(Final_Report_Date).toLocaleString("en-US", {
+                                            year: "numeric",
+                                            month: "numeric",
+                                            day: "numeric",
+                                        })) || 
+                                        ""}
+                                    </td>
+                                :
+                                    <td data-title="Foreign_Report_Date">{(Foreign_Report_Date &&
+                                        new Date(Foreign_Report_Date).toLocaleString("en-US", {
+                                            year: "numeric",
+                                            month: "numeric",
+                                            day: "numeric",
+                                        })) || ""}
+                                        </td>
+                                }
                                 <td data-title="Event Date">
                                     {(Event_Date &&
                                         new Date(Event_Date).toLocaleString("en-US", {
@@ -64,4 +81,4 @@ export const List = ({ accidents }) => {
             </tbody>
         </table>
     );
-};
+};                                                                                                                                                                            

@@ -26,8 +26,9 @@ export const Home = () => {
         fetch(`${url}?${options}&page=${page}`)
             .then((res) => res.json())
             .then((data) => {
-                setAccidents((acc) => [...acc, ...data.accidents]);
+                setAccidents(data.accidents);
                 setTotalPages(data.total_pages);
+                setRange(getRange(0, data.total_pages < 9 ? data.total_pages : 9));
                 setPage(0);
                 setNext(1);
                 setLoading(false);
@@ -173,46 +174,117 @@ export const Home = () => {
         }
         return newRange;
     };
+    function getTitle() {
+        let params = query.split("&");
+        let title;
+        if (params.length > 2) {
+            title = params.slice(0, -1).join(", ");
+            title += ", and " + params[params.length - 1];
+        } else {
+            title = params.join(" and ");
+        }
+        return title;
+    }
 
     if (accidents.length > 0) {
         return (
-            <>
-                <div className="table-nav">
-                    <button onClick={firstRange} disabled={prev < 0}>{`<<`}</button>
-                    <button onClick={getPrev} disabled={prev < 0}>
-                        {`<`}
-                    </button>
-                    {range && (
-                        <button onClick={prevRange} disabled={page < 10}>
-                            ...
-                        </button>
-                    )}
-                    {range &&
-                        range.map((val, index) => {
-                            return (
-                                <button
-                                    className={val === page ? "highlight" : undefined}
-                                    key={index}
-                                    onClick={() => getPage(val)}
-                                >
-                                    {val + 1}
-                                </button>
-                            );
-                        })}
-                    {range && (
-                        <button onClick={nextRange} disabled={next > totalPages}>
-                            ...
-                        </button>
-                    )}
-                    <button onClick={getNext} disabled={next > totalPages}>
-                        {`>`}
-                    </button>
-                    <button onClick={lastRange} disabled={next > totalPages}>{`>>`}</button>
-                </div>
-                {loading && <img src={plane} className="rotate-center" alt="Hourglass" />}
-                <List accidents={accidents} />
-            </>
-        );
+                <>
+                <div className="title-with-nav">
+                    <h1 className="title">Accidents where {getTitle()}</h1>
+                    <div id="top-nav" className="table-nav">
+                        {range.length > 1 && (
+                            <button title="Go to first page" onClick={firstRange} disabled={prev < 0}>{`<<`}</button>
+                        )}
+                        {range.length > 1 && (
+                            <button title="Go back 1 page" onClick={getPrev} disabled={prev < 0}>
+                                {`<`}
+                            </button>
+                        )}
+                        {range.length > 1 && (
+                            <button title="Go back 10 pages" onClick={prevRange} disabled={page < 10}>
+                                ...
+                            </button>
+                        )}
+                        {range.length > 1 &&
+                            range.map((val, index) => {
+                                return (
+                                    <button
+                                        title={`Go to page ${val + 1}`}
+                                        className={val === page ? "highlight" : undefined}
+                                        key={index}
+                                        onClick={() => getPage(val)}
+                                    >
+                                        {val + 1}
+                                    </button>
+                                );
+                            })}
+                        {range.length > 1 && (
+                            <button title="Advance 10 pages" onClick={nextRange} disabled={page + 10 >= totalPages}>
+                                ...
+                            </button>
+                        )}
+                        {range.length > 1 && (
+                            <button title="Advance 1 page" onClick={getNext} disabled={next >= totalPages}>
+                                {`>`}
+                            </button>
+                        )}
+                        {range.length > 1 && (
+                            <button
+                                title="Go to last page"
+                                onClick={lastRange}
+                                disabled={next > totalPages}
+                            >{`>>`}</button>
+                        )}
+                    </div>
+                    </div>
+                    {loading && <img src={plane} className="rotate-center" alt="Hourglass" />}
+                    <List accidents={accidents} />
+                    <div className="table-nav">
+                        {range.length > 1 && (
+                            <button title="Go to first page" onClick={firstRange} disabled={prev < 0}>{`<<`}</button>
+                        )}
+                        {range.length > 1 && (
+                            <button title="Go back 1 page" onClick={getPrev} disabled={prev < 0}>
+                                {`<`}
+                            </button>
+                        )}
+                        {range.length > 1 && (
+                            <button title="Go back 10 pages" onClick={prevRange} disabled={page < 10}>
+                                ...
+                            </button>
+                        )}
+                        {range.length > 1 &&
+                            range.map((val, index) => {
+                                return (
+                                    <button
+                                        className={val === page ? "highlight" : undefined}
+                                        key={index}
+                                        onClick={() => getPage(val)}
+                                    >
+                                        {val + 1}
+                                    </button>
+                                );
+                            })}
+                        {range.length > 1 && (
+                            <button title="Advance 10 pages" onClick={nextRange} disabled={page + 10 >= totalPages}>
+                                ...
+                            </button>
+                        )}
+                        {range.length > 1 && (
+                            <button title="Advance 1 page" onClick={getNext} disabled={next >= totalPages}>
+                                {`>`}
+                            </button>
+                        )}
+                        {range.length > 1 && (
+                            <button
+                                title="Go to last page"
+                                onClick={lastRange}
+                                disabled={next > totalPages}
+                            >{`>>`}</button>
+                        )}
+                    </div>
+                </>
+            )
     } else {
         return (
             <>

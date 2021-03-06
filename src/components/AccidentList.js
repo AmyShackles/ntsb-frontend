@@ -156,7 +156,7 @@ const AccidentList = () => {
         return newRange;
     };
     return (
-        <>
+        <div className="accident-list">
             {accidents.length > 0 ? (
                 <>
                 <div className="title-with-nav">
@@ -263,7 +263,7 @@ const AccidentList = () => {
             ) : (
                 <h1>No results</h1>
             )}
-        </>
+        </div>
     );
 };
 

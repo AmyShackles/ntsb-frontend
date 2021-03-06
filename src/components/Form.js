@@ -6,46 +6,49 @@ import { engineTypeOptions } from "../constants/engineTypes.js";
 import { phaseOfFlightOptions } from "../constants/phasesOfFlight.js";
 import { airportCodeOptions } from "../constants/airportCodes.js";
 import { stateOptions } from "../constants/states.js";
+import { aircraftDamageOptions } from "../constants/aircraftDamages.js";
 
 const url = process.env.REACT_APP_ENDPOINT; // eslint-disable-line
 
 export const Form = ({ handleSubmission }) => {
     const [eventDateStart, setEventDateStart] = React.useState();
     const [eventDateEnd, setEventDateEnd] = React.useState();
-    const [state, setState] = React.useState();
     // const [accidentNumber, setAccidentNumber] = React.useState();
-    // const [airCarrier, setAirCarrier] = React.useState();
+    const [airCarrier, setAirCarrier] = React.useState();
     const [airportCode, setAirportCode] = React.useState();
-    // const [airportName, setAirportName] = React.useState();
-    // const [amateurBuilt, setAmateurBuilt] = React.useState();
+    const [airportName, setAirportName] = React.useState();
     const [broadPhaseOfFlight, setBroadPhaseOfFlight] = React.useState();
     const [category, setCategory] = React.useState();
+    const [city, setCity] = React.useState();
     const [country, setCountry] = React.useState();
-    // const [damage, setDamage] = React.useState();
+    const [damage, setDamage] = React.useState();
     const [engineType, setEngineType] = React.useState();
-    // const [injurySeverity, setInjurySeverity] = React.useState();
     const [make, setMake] = React.useState();
     const [model, setModel] = React.useState();
-    // const [numberOfEngines, setNumberOfEngines] = React.useState();
-    // const [operation, setOperation] = React.useState();
-    // const [purposeOfFlight, setPurposeOfFlight] = React.useState();
-    // const [registrationNumber, setRegistrationNumber] = React.useState();
-    // const [reportStatus, setReportStatus] = React.useState();
-    // const [weatherCondition, setWeatherCondition] = React.useState();
-    const [disabled, setDisabled] = React.useState(true);
+    const [numberOfEngines, setNumberOfEngines] = React.useState();
+    const [purposeOfFlight, setPurposeOfFlight] = React.useState();
+    const [state, setState] = React.useState();
+    const [totalFatalInjuries, setTotalFatalInjuries] = React.useState();
+    const [totalMinorInjuries, setTotalMinorInjuries] = React.useState();
+    const [totalSeriousInjuries, setTotalSeriousInjuries] = React.useState();
+    const [totalUninjured, setTotalUninjured] = React.useState();
+    const [disabled, setDisabled] = React.useState();
 
     React.useEffect(() => {
-        if (country && country === "United States") {
+        if (country && country !== "United States") {
+            setDisabled(true);
+            setState("");
+        } else if (!country || country === "United States") {
             setDisabled(false);
         }
-    });
+    }, [country]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         let options = [
-            eventDateStart && `after=${eventDateStart}`,
-            eventDateEnd && `before=${eventDateEnd}`,
+            eventDateStart && `Event_Date_After=${eventDateStart}`,
+            eventDateEnd && `Event_Date_Before=${eventDateEnd}`,
             state && `State=${state}`,
             // accidentNumber && `Accident_Number=${accidentNumber}`,
             country && `Country=${country}`,
@@ -71,6 +74,7 @@ export const Form = ({ handleSubmission }) => {
 
     return (
         <form onSubmit={handleSubmit}>
+            <div>
             <label htmlFor="Event_Date_Start">Event Date Start</label>
             <input
                 id="Event_Date_Start"
@@ -80,6 +84,9 @@ export const Form = ({ handleSubmission }) => {
                 value={eventDateStart}
                 onChange={(e) => setEventDateStart(e.target.value)}
             />
+            </div>
+            <div>
+            <label htmlFor="Event_Date_End">Event Date End</label>
             <input
                 id="Event_Date_End"
                 name="Event_Date_End"
@@ -88,23 +95,92 @@ export const Form = ({ handleSubmission }) => {
                 value={eventDateEnd}
                 onChange={(e) => setEventDateEnd(e.target.value)}
             />
+            </div>
+            <AutoSuggest name="Air Carrier" url={`${url}/airCarrier`} value={airCarrier} handleChange={setAirCarrier} />
             <AutoSuggest
-                name="Country"
-                url={`${url}/countryList`}
-                handleChange={setCountry}
-                styles={{ suggestionsContainer: { zIndex: "1" }, searchField: {} }}
+                url={`${url}/categoryList`}
+                name="Aircraft Category"
+                value={category}
+                handleChange={setCategory}
             />
-            <AutoSuggest handleChange={setState} name="State" options={stateOptions} disabled={disabled} />
-            <AutoSuggest name="Aircraft Category" handleChange={setCategory} options={aircraftCategoryOptions} />
-            <AutoSuggest name="EngineType" options={engineTypeOptions} handleChange={setEngineType} />
             <AutoSuggest
-                name="Broad Phase of Flight"
-                options={phaseOfFlightOptions}
-                handleChange={setBroadPhaseOfFlight}
+                options={aircraftDamageOptions}
+                name="Aircraft Damage"
+                value={damage}
+                handleChange={setDamage}
             />
+            <AutoSuggest
+                name="Airport Code"
+                value={airportCode}
+                handleChange={setAirportCode}
+                url={`${url}/airportCode`}
+            />
+            <AutoSuggest
+                name="Airport Name"
+                value={airportName}
+                handleChange={setAirportName}
+                url={`${url}/airportName`}
+            />
+            <AutoSuggest name="Broad Phase of Flight" url={`${url}/phaseList`} handleChange={setBroadPhaseOfFlight} />
+            <AutoSuggest
+                name="City"
+                value={city}
+                handleChange={setCity}
+                url={`${url}/cityList`}
+            />
+            <AutoSuggest name="Country" url={`${url}/countryList`} handleChange={setCountry} value={country} />
+            <AutoSuggest name="Engine Type" options={engineTypeOptions} handleChange={setEngineType} />
             <AutoSuggest name="Make" url={`${url}/makeList`} handleChange={setMake} />
-            <AutoSuggest name="Model" url={`${url}/modelList`} handleChange={setModel} />
-            <AutoSuggest name="Airport Code" options={airportCodeOptions} handleChange={setAirportCode} />
+            <AutoSuggest
+                name="Model"
+                url={make ? `${url}/makeList/${make}/model` : `${url}/modelList`}
+                handleChange={setModel}
+            />
+            <AutoSuggest
+                name="Number of Engines"
+                url={`${url}/numberOfEngines`}
+                name="Number of Engines"
+                value={numberOfEngines}
+                handleChange={setNumberOfEngines}
+            />
+            <AutoSuggest
+                name="Purpose of Flight"
+                url={`${url}/purposeOfFlight`}
+                value={purposeOfFlight}
+                handleChange={setPurposeOfFlight}
+            />
+            <AutoSuggest
+                handleChange={setState}
+                name="State"
+                options={stateOptions}
+                value={state}
+                disabled={disabled}
+                styles={{ searchField: disabled ? { opacity: "50%" } : { opacity: "100%" } }}
+            />
+            <AutoSuggest
+                name="Total Fatal Injuries"
+                url={`${url}/totalFatalInjuries`}
+                value={totalFatalInjuries}
+                handleChange={setTotalFatalInjuries}
+            />
+            <AutoSuggest
+                name="Total Minor Injuries"
+                url={`${url}/totalMinorInjuries`}
+                value={totalMinorInjuries}
+                handleChange={setTotalMinorInjuries}
+            />
+            <AutoSuggest
+                name="Total Serious Injuries"
+                url={`${url}/totalSeriousInjuries`}
+                value={totalSeriousInjuries}
+                handleChange={setTotalSeriousInjuries}
+            />
+            <AutoSuggest
+                name="Total Uninjured"
+                url={`${url}/totalUninjured`}
+                value={totalUninjured}
+                handleChange={setTotalUninjured}
+            />
             <input type="submit" />
         </form>
     );
