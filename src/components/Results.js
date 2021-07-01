@@ -135,7 +135,7 @@ const Results = (props) => {
     };
 
     const lastRange = () => {
-        let rangeStart = totalPages - 9;
+        let rangeStart = totalPages > 9 ? totalPages - 9 : 0;
         fetch(`${url}?${query}&page=${totalPages}`)
             .then((res) => res.json())
             .then((data) => setAccidents(data.accidents))
