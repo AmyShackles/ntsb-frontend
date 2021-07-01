@@ -202,12 +202,12 @@ const Results = (props) => {
                         </button>
                     )}
                     {range.length > 1 && (
-                        <button title="Advance 1 page" onClick={getNext} disabled={next >= totalPages}>
+                        <button title="Advance 1 page" onClick={getNext} disabled={next > totalPages}>
                             {`>`}
                         </button>
                     )}
                     {range.length > 1 && (
-                        <button title="Go to last page" onClick={lastRange} disabled={next > totalPages}>{`>>`}</button>
+                        <button title="Go to last page" onClick={lastRange} disabled={page > totalPages}>{`>>`}</button>
                     )}
                 </div>
             </div>
