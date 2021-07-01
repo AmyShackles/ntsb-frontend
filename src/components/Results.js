@@ -240,12 +240,12 @@ const Results = (props) => {
                         );
                     })}
                 {range.length > 1 && (
-                    <button title="Advance 10 pages" onClick={nextRange} disabled={page + 10 >= totalPages}>
+                    <button title="Advance 10 pages" onClick={nextRange} disabled={page + 9 > totalPages}>
                         ...
                     </button>
                 )}
                 {range.length > 1 && (
-                    <button title="Advance 1 page" onClick={getNext} disabled={next >= totalPages}>
+                    <button title="Advance 1 page" onClick={getNext} disabled={next > totalPages}>
                         {`>`}
                     </button>
                 )}
