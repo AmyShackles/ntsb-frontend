@@ -63,7 +63,7 @@ export const Form = ({ handleSubmission }) => {
             // injurySeverity && `Injury_Severity=${injurySeverity}`,
             make && `Make=${make}`,
             model && `Model=${model}`,
-            // numberOfEngines && `Number_of_Engines=${numberOfEngines}`,
+            numberOfEngines && `Number_of_Engines=${numberOfEngines}`,
             // purposeOfFlight && `Purpose_of_Flight=${purposeOfFlight}`,
             // registrationNumber && `Registration_Number=${registrationNumber}`,
             // reportStatus && `Report_Status=${reportStatus}`,
@@ -75,28 +75,34 @@ export const Form = ({ handleSubmission }) => {
     return (
         <form onSubmit={handleSubmit}>
             <div>
-            <label htmlFor="Event_Date_Start">Event Date Start</label>
-            <input
-                id="Event_Date_Start"
-                name="Event_Date_Start"
-                type="date"
-                min="1948-10-24"
-                value={eventDateStart}
-                onChange={(e) => setEventDateStart(e.target.value)}
-            />
+                <label htmlFor="Event_Date_Start">Event Date Start</label>
+                <input
+                    id="Event_Date_Start"
+                    name="Event_Date_Start"
+                    type="date"
+                    min="1948-10-24"
+                    value={eventDateStart}
+                    onChange={(e) => setEventDateStart(e.target.value)}
+                />
             </div>
             <div>
-            <label htmlFor="Event_Date_End">Event Date End</label>
-            <input
-                id="Event_Date_End"
-                name="Event_Date_End"
-                type="date"
-                min="1948-10-24"
-                value={eventDateEnd}
-                onChange={(e) => setEventDateEnd(e.target.value)}
-            />
+                <label htmlFor="Event_Date_End">Event Date End</label>
+                <input
+                    id="Event_Date_End"
+                    name="Event_Date_End"
+                    type="date"
+                    min="1948-10-24"
+                    value={eventDateEnd}
+                    onChange={(e) => setEventDateEnd(e.target.value)}
+                />
             </div>
-            <AutoSuggest name="Air Carrier" url={`${url}/airCarrier`} value={airCarrier} handleChange={setAirCarrier} />
+            <AutoSuggest 
+                name="Air Carrier" 
+                url={`${url}/airCarrier`} 
+                value={airCarrier} 
+                handleChange={setAirCarrier} 
+
+            />
             <AutoSuggest
                 url={`${url}/categoryList`}
                 name="Aircraft Category"
@@ -121,28 +127,45 @@ export const Form = ({ handleSubmission }) => {
                 handleChange={setAirportName}
                 url={`${url}/airportName`}
             />
-            <AutoSuggest name="Broad Phase of Flight" url={`${url}/phaseList`} handleChange={setBroadPhaseOfFlight} />
-            <AutoSuggest
-                name="City"
-                value={city}
-                handleChange={setCity}
-                url={`${url}/cityList`}
-            />
-            <AutoSuggest name="Country" url={`${url}/countryList`} handleChange={setCountry} value={country} />
-            <AutoSuggest name="Engine Type" options={engineTypeOptions} handleChange={setEngineType} />
-            <AutoSuggest name="Make" url={`${url}/makeList`} handleChange={setMake} />
+            <AutoSuggest 
+                name="Broad Phase of Flight" 
+                url={`${url}/phaseList`} 
+                handleChange={setBroadPhaseOfFlight} 
+                value={broadPhaseOfFlight}/>
+            <AutoSuggest 
+                name="City" 
+                value={city} handleChange={setCity} 
+                url={`${url}/cityList`} />
+            <AutoSuggest 
+                name="Country" 
+                url={`${url}/countryList`} 
+                handleChange={setCountry} 
+                value={country} />
+            <AutoSuggest 
+                name="Engine Type" 
+                options={engineTypeOptions} 
+                handleChange={setEngineType} 
+                value={engineType} />
+            <AutoSuggest 
+                name="Make" 
+                url={`${url}/makeList`} 
+                handleChange={setMake} 
+                value={make} />
             <AutoSuggest
                 name="Model"
                 url={make ? `${url}/makeList/${make}/model` : `${url}/modelList`}
                 handleChange={setModel}
+                value={model}
             />
-            <AutoSuggest
+            <div><label htmlFor="numberOfEngines">Number of Engines</label>
+            <input
                 name="Number of Engines"
                 url={`${url}/numberOfEngines`}
                 name="Number of Engines"
+                id="numberOfEngines"
                 value={numberOfEngines}
-                handleChange={setNumberOfEngines}
-            />
+                onChange={(e) => setNumberOfEngines(e.target.value)}
+            /></div>
             <AutoSuggest
                 name="Purpose of Flight"
                 url={`${url}/purposeOfFlight`}

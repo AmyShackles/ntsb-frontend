@@ -216,3 +216,10 @@ form div {
   }
 }
 
+nav {
+  height: 50px;
+  background-color: white;
+  display: flex;
+  justify-content:space-evenly;
+  align-items:center;
+}
